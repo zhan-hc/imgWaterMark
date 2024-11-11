@@ -15,6 +15,10 @@
       <input v-model="color" type="color" placeholder="水印颜色" @change="colorChange"/>
     </div>
     <div>
+      <label for="fontsize">水印字体大小：</label>
+      <input v-model="fontSize" type="text" placeholder="水印字体大小" pattern="[0-9]*" @change="colorChange"/>
+    </div>
+    <div>
       <label for="opacity">透明度：</label>
       <input v-model="opacity" type="text" style="width: 50px" @change="drawImg"/>
       &nbsp;<span>(0.1 -> 1)</span>
@@ -78,9 +82,10 @@ const state = reactive({
   zipNum: 0.8,
   horInterval: 50,
   verInterval: 50,
+  fontSize: 20
 })
 
-const { markStyle, text, color, opacity, imgUrl, rgbaColor, zipNum, horInterval, verInterval, radian  } = toRefs(state)
+const { markStyle, text, color, opacity, imgUrl, rgbaColor, zipNum, horInterval, verInterval, radian, fontSize  } = toRefs(state)
 
 const interval = computed(() => {
   return {
@@ -156,7 +161,7 @@ function drawMark () {
     canvas.value.width = width;
     canvas.value.height = height;
     ctx.drawImage(maskImg.value, 0, 0, width, height);
-    ctx.font = '20px Arial';
+    ctx.font = `${state.fontSize}px Arial`;
     ctx.textBaseline="bottom"; 
     ctx.fillStyle = textColor.value;
     markStyleChange()
